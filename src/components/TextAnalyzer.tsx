@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Wand2, FileText, AlertTriangle, UploadCloud } from "lucide-react";
+import { Wand2, FileText, AlertTriangle, UploadCloud, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import AIDetectionResult from "./AIDetectionResult";
 import HumanizedOutput from "./HumanizedOutput";
@@ -60,6 +60,14 @@ const TextAnalyzer = () => {
     }
   };
 
+  const handleReset = () => {
+    setText("");
+    setDetectionResult(null);
+    setHumanizedText("");
+    setActiveTab("detect");
+    toast.success("Text and results have been reset");
+  };
+
   const uploadFile = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -95,6 +103,15 @@ const TextAnalyzer = () => {
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium">AI Text Analyzer & Humanizer</h2>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="text-muted-foreground"
+            onClick={handleReset}
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset
+          </Button>
         </div>
         
         <div className="text-area-container mb-4">
