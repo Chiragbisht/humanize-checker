@@ -1,8 +1,8 @@
 import { toast } from "sonner";
 
-// API keys - normally these would be server-side env variables
-const GROQ_API_KEY = "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";
-const GEMINI_API_KEY = "AIzaSyCdVBEF43hSW9gf6zMyzy72VymMdSZY61M";
+// Get API keys from environment variables
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 export interface AIDetectionResult {
   aiProbability: number;
@@ -43,6 +43,18 @@ Text to humanize:
 export async function detectAIContent(text: string): Promise<AIDetectionResult> {
   if (!text || text.trim().length < 50) {
     toast.error("Please enter at least 50 characters for accurate detection.");
+    return {
+      aiProbability: 0,
+      humanProbability: 0,
+      aiRefinedProbability: null,
+      humanRefinedProbability: null
+    };
+  }
+
+  // Check if API key is available
+  if (!GROQ_API_KEY) {
+    console.error("GROQ API key is missing. Please check your environment variables.");
+    toast.error("API configuration error. Please contact support.");
     return {
       aiProbability: 0,
       humanProbability: 0,
@@ -137,6 +149,13 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
 export async function humanizeText(text: string): Promise<string> {
   if (!text || text.trim().length < 50) {
     toast.error("Please enter at least 50 characters for humanization.");
+    return "";
+  }
+
+  // Check if API key is available
+  if (!GEMINI_API_KEY) {
+    console.error("Gemini API key is missing. Please check your environment variables.");
+    toast.error("API configuration error. Please contact support.");
     return "";
   }
 
