@@ -1,7 +1,7 @@
 
 import TextAnalyzer from "@/components/TextAnalyzer";
 import { motion } from "framer-motion";
-import { FileText, RotateCcw, BookOpen } from "lucide-react";
+import { FileText, RotateCcw, BookOpen, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import appImg from "/lovable-uploads/29e9e257-42ec-4c98-98d4-cc0aa980e99f.png";

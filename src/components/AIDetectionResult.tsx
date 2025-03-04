@@ -1,11 +1,11 @@
 
-import { AIDetectionResult } from "@/services/ai-service";
+import type { AIDetectionResult as AIDetectionResultType } from "@/services/ai-service";
 import { motion } from "framer-motion";
 import { CheckCircle, FileQuestion, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AIDetectionResultProps {
-  result: AIDetectionResult | null;
+  result: AIDetectionResultType | null;
   isLoading: boolean;
 }
 
