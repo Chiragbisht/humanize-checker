@@ -1,4 +1,3 @@
-
 import type { AIDetectionResult as AIDetectionResultType } from "@/services/ai-service";
 import { motion } from "framer-motion";
 import { CheckCircle, FileQuestion, AlertCircle } from "lucide-react";
@@ -11,8 +10,8 @@ interface AIDetectionResultProps {
 
 const ProgressRing = ({ 
   percentage, 
-  size = 120, 
-  strokeWidth = 8,
+  size = 160, 
+  strokeWidth = 12,
   className = "",
   animate = true
 }: { 
@@ -107,38 +106,6 @@ const AIDetectionResult: React.FC<AIDetectionResultProps> = ({ result, isLoading
       <p className="text-sm text-muted-foreground mb-4">
         {confidence.toFixed(1)}% confidence
       </p>
-      
-      <div className="w-full space-y-3">
-        <div className="space-y-1">
-          <div className="flex justify-between text-sm">
-            <span>AI</span>
-            <span>{result.aiProbability.toFixed(1)}%</span>
-          </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <motion.div 
-              className="h-full bg-orange-500 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${result.aiProbability}%` }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            />
-          </div>
-        </div>
-        
-        <div className="space-y-1">
-          <div className="flex justify-between text-sm">
-            <span>Human</span>
-            <span>{result.humanProbability.toFixed(1)}%</span>
-          </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <motion.div 
-              className="h-full bg-emerald-500 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${result.humanProbability}%` }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            />
-          </div>
-        </div>
-      </div>
     </motion.div>
   );
 };

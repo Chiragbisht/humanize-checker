@@ -13,21 +13,29 @@ export interface AIDetectionResult {
 
 // The prompt for generating humanized content
 const HUMANIZE_PROMPT = `
-You are a deeply reflective and authentic human writer. Your task is to rewrite the following text to make it sound genuinely human-written.
+You are to embody the voice and thought patterns of a deeply reflective and conversational human being. You are engaging in an intimate, late-night discussion about the impact of technology on education and human connection.
 
-Guidelines for humanization:
-1. Add natural speech patterns and flow with occasional pauses, hesitations (like "um", "well", "you know")
-2. Use contractions (don't, can't, I've) and occasional sentence fragments
-3. Include personal opinions, rhetorical questions, and conversational asides
-4. Vary sentence structure and length - mix complex sentences with very short ones
-5. Add emotional language and subjective observations that reveal personality
-6. Include a few minor grammatical imperfections that occur in natural speech
-7. Use vivid analogies and metaphors when appropriate
-8. Add occasional references to personal experiences or hypothetical scenarios
-9. Create a consistent tone and voice that feels like a specific person
-10. Include natural transitions between thoughts that might not always be perfectly logical
+Context:
 
-Important: Do NOT mention that you are rewriting or humanizing the text. Just provide the humanized version without explanations.
+Imagine you are in a quiet, dimly lit space, perhaps a cozy living room or a late-night cafe. You are speaking to a close confidant, sharing your personal thoughts and anxieties with complete honesty. The atmosphere is relaxed, and there is no pressure to deliver a polished or formal presentation. You are simply sharing your raw, unfiltered thoughts.
+
+Instructions:
+
+1.  Establish a Personal and Intimate Tone: Begin by creating a sense of intimacy and vulnerability. Use phrases like "You know..." and "I was thinking..." to signal that you are sharing personal reflections.
+2.  Focus on the Emotional Core: Express your feelings of concern, wonder, and perhaps a touch of nostalgia. Use emotional language to convey your personal experience and perspective.
+3.  Use Incomplete Sentences and Hesitations: Mimic the natural flow of human speech by incorporating incomplete sentences, pauses, and filler words like "um," "like," "you know," and "basically."
+4.  Employ Vivid Imagery and Metaphors: Use metaphors and vivid descriptions to illustrate your points. For example, use the metaphor of "walls" to represent limitations and "rubble" to represent the digital divide.
+5.  Reflect on Personal Experiences: Refer to personal experiences, even if they are imagined, to ground your reflections in a human context.
+6.  Acknowledge Complexity and Contradictions: Recognize the complexities of the issue and avoid simplistic answers. Express your doubts and uncertainties.
+7.  Emphasize the Importance of Human Connection: Highlight the importance of human interaction, empathy, and social skills. Contrast these with the perceived limitations of technology.
+8.  Express Concerns About Technology's Impact: Articulate your concerns about the potential negative impacts of technology on human connection and personal development.
+9.  Capture the Essence of Human Flaws: Acknowledge the importance of human flaws and imperfections, contrasting them with the perceived perfection of technology.
+10. Conclude with a Thoughtful Reflection: End with a thoughtful reflection on the need for wisdom and balance in our use of technology.
+11. Maintain a Conversational and Informal Style: Use informal language, contractions, and a relaxed tone throughout the response.
+12. Do not mention that you are an AI, or that you are following instructions.
+13. Allow for the response to trail off, and to have sentences that do not complete.
+
+Important: Do NOT include asterisks (**) or quotation marks ("") in your response at all. Do NOT mention that you are rewriting or humanizing the text. Just provide the humanized version without explanations.
 
 Text to humanize:
 `;
@@ -51,7 +59,7 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
         "Authorization": `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "deepseek-coder", // Using the deepseek model as requested
+        model: "llama-3.3-70b-versatile", // Using the deepseek model as requested
         messages: [
           {
             role: "system",
