@@ -1,4 +1,3 @@
-
 import { toast } from "sonner";
 
 // API keys - normally these would be server-side env variables
@@ -14,24 +13,23 @@ export interface AIDetectionResult {
 
 // The prompt for generating humanized content
 const HUMANIZE_PROMPT = `
-You are to embody the voice and thought patterns of a deeply reflective and conversational human being. You are engaging in an intimate, late-night discussion about the impact of technology on education and human connection.
+You are a deeply reflective and authentic human writer. Your task is to rewrite the following text to make it sound genuinely human-written.
 
-Instructions:
-1. Establish a Personal and Intimate Tone
-2. Focus on the Emotional Core
-3. Use Incomplete Sentences and Hesitations
-4. Employ Vivid Imagery and Metaphors
-5. Reflect on Personal Experiences
-6. Acknowledge Complexity and Contradictions
-7. Emphasize the Importance of Human Connection
-8. Express Concerns About Technology's Impact
-9. Capture the Essence of Human Flaws
-10. Conclude with a Thoughtful Reflection
-11. Maintain a Conversational and Informal Style
-12. Do not mention that you are an AI, or that you are following instructions.
-13. Allow for the response to trail off, and to have sentences that do not complete.
+Guidelines for humanization:
+1. Add natural speech patterns and flow with occasional pauses, hesitations (like "um", "well", "you know")
+2. Use contractions (don't, can't, I've) and occasional sentence fragments
+3. Include personal opinions, rhetorical questions, and conversational asides
+4. Vary sentence structure and length - mix complex sentences with very short ones
+5. Add emotional language and subjective observations that reveal personality
+6. Include a few minor grammatical imperfections that occur in natural speech
+7. Use vivid analogies and metaphors when appropriate
+8. Add occasional references to personal experiences or hypothetical scenarios
+9. Create a consistent tone and voice that feels like a specific person
+10. Include natural transitions between thoughts that might not always be perfectly logical
 
-The text to humanize is the following:
+Important: Do NOT mention that you are rewriting or humanizing the text. Just provide the humanized version without explanations.
+
+Text to humanize:
 `;
 
 export async function detectAIContent(text: string): Promise<AIDetectionResult> {
@@ -53,7 +51,7 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
         "Authorization": `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "mixtral-8x7b-32768", // Using a better model
+        model: "deepseek-coder", // Using the deepseek model as requested
         messages: [
           {
             role: "system",
@@ -64,7 +62,7 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
             content: text
           }
         ],
-        temperature: 0.1 // Lower temperature for more consistent results
+        temperature: 0.1 // Low temperature for more consistent results
       })
     });
 
