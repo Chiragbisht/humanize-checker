@@ -53,7 +53,7 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
         "Authorization": `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gwen-2.5-32b",
+        model: "llama3-8b-8192", // Changed from "gwen-2.5-32b" to "llama3-8b-8192"
         messages: [
           {
             role: "system",
