@@ -53,18 +53,18 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
         "Authorization": `Bearer ${GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192", // Changed from "gwen-2.5-32b" to "llama3-8b-8192"
+        model: "mixtral-8x7b-32768", // Using a better model
         messages: [
           {
             role: "system",
-            content: "You are an expert at detecting AI-generated text. Your task is to analyze the given text and determine if it was written by an AI or a human. Provide a probability score between 0 and 100 for both AI and human authorship. Return ONLY a JSON object with the following format: {\"aiProbability\": number, \"humanProbability\": number, \"explanation\": \"brief explanation\"}. Do not include any other text in your response."
+            content: "You are an expert at detecting AI-generated text. Your task is to analyze the given text and determine if it was written by an AI or a human. Provide a probability score between 0 and 100 for both AI and human authorship. You MUST return ONLY a valid JSON object with exactly this format: {\"aiProbability\": number, \"humanProbability\": number}. Do not include any explanations or additional fields in the JSON."
           },
           {
             role: "user",
             content: text
           }
         ],
-        temperature: 0.2
+        temperature: 0.1 // Lower temperature for more consistent results
       })
     });
 
@@ -84,14 +84,27 @@ export async function detectAIContent(text: string): Promise<AIDetectionResult> 
     console.log("Groq API response:", data);
     
     try {
-      const resultText = data.choices[0].message.content;
-      const resultJson = JSON.parse(resultText);
+      const resultText = data.choices[0].message.content.trim();
+      
+      // Extract just the JSON part using regex to avoid parsing issues
+      const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error("No valid JSON found in the response");
+      }
+      
+      const jsonStr = jsonMatch[0];
+      const resultJson = JSON.parse(jsonStr);
+      
+      // Ensure we have the required fields
+      if (typeof resultJson.aiProbability !== 'number' || typeof resultJson.humanProbability !== 'number') {
+        throw new Error("Response missing required probability fields");
+      }
       
       return {
         aiProbability: resultJson.aiProbability,
         humanProbability: resultJson.humanProbability,
-        aiRefinedProbability: resultJson.aiRefinedProbability || null,
-        humanRefinedProbability: resultJson.humanRefinedProbability || null
+        aiRefinedProbability: null,
+        humanRefinedProbability: null
       };
     } catch (parseError) {
       console.error("Error parsing response:", parseError);
